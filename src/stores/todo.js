@@ -29,15 +29,18 @@ export const useTodoStore = defineStore("todo", {
         }
       }
     },
-    addTodo(todo) {
-      this.todos.push({
-        id: this.todos.length + 1,
-        name: todo,
-        description: "description",
-        createdAt: new Date().toISOString(),
-        completedAt: null,
-      });
-      this.todos = JSON.parse(JSON.stringify(this.todos));
+    async addTodo(todo) {
+      try {
+        await axios.post(`${API_URL}/tasks`, {
+          name: todo,
+          description: "description",
+          createdAt: new Date().toISOString(),
+          completedAt: null,
+        });
+        await this.fetchTodos(); // re-fetch from DB to stay in sync
+      } catch (error) {
+        console.error("Failed to add todo:", error);
+      }
     },
     clearAll() {
       this.todos = [];

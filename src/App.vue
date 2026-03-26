@@ -50,5 +50,5 @@ export default {
 };
 </script>
 <style>
-@import "https://unicons.iconscout.com/release/v4.0.0/css/line.css";
+@import "https://unicons.iconscout.com/release/v4.0.8/css/line.css";
 </style>
