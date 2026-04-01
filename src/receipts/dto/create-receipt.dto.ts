@@ -12,3 +12,5 @@ export class CreateReceiptDto {
   @Min(0)
   price: number;
 }
+
+
