@@ -9,7 +9,7 @@ import { UserModule } from '../user/user.module';
   imports: [TypeOrmModule.forFeature([Task]), UserModule],
   controllers: [TasksController],
   providers: [TaskService],
-  exports: [],
+  exports: [TaskService],
   // Add any other necessary configurations or modules
 })
 export class TaskModule {}

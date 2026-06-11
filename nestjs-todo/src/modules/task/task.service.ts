@@ -52,4 +52,12 @@ export class TaskService {
     console.log(id);
     return this.remove(Number(id));
   }
+
+  async deleteCompleted() {
+    return this.tasksRepo.createQueryBuilder()
+      .delete()
+      .where("completedAt IS NOT NULL")
+      .execute();
+  }
 }
+

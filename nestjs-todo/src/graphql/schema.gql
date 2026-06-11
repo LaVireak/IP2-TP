@@ -15,16 +15,29 @@ type ProductType {
   category: CategoryType
 }
 
+type TaskType {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: String!
+  completedAt: String
+}
+
 type Query {
   categories: [CategoryType!]!
   products: [ProductType!]!
   product(id: ID!): ProductType
   productsByCategory(categoryId: ID!): [ProductType!]!
+  tasks: [TaskType!]!
 }
 
 type Mutation {
   createCategory(name: String!): CategoryType!
   createProduct(input: CreateProductInput!): ProductType!
+  createTask(name: String!): TaskType!
+  toggleTaskStatus(id: ID!): TaskType!
+  deleteTask(id: ID!): Boolean!
+  deleteCompletedTasks: Boolean!
 }
 
 input CreateProductInput {
