@@ -1,19 +1,13 @@
 <template>
   <ul class="todoLists">
-    <template v-if="status == 'completed'">
-      <TodoItem
-        v-for="todo of completedTasks"
-        icon="uil-adobe-alt"
-        :todo="todo"
-      />
-    </template>
-    <template v-else>
-      <TodoItem
-        v-for="todo of pendingTasks"
-        icon="uil-adobe-alt"
-        :todo="todo"
-      />
-    </template>
+    <TodoItem
+      v-for="todo of filteredTasks"
+      :key="todo.id"
+      :todo="todo"
+    />
+    <li v-if="filteredTasks.length === 0" class="empty-state">
+      No tasks in this category.
+    </li>
   </ul>
 </template>
 <script>
@@ -31,40 +25,29 @@ export default {
   components: {
     TodoItem,
   },
-  data() {
-    return {
-      color: "red",
-    };
-  },
   async mounted() {
-    // we will call action fetchTodos
     await this.todoStore.fetchTodos();
   },
   computed: {
-    ...mapState(useTodoStore, ["todos", "countTodos"]),
-    completedTasks() {
-      if (this.todos) {
+    ...mapState(useTodoStore, ["todos"]),
+    filteredTasks() {
+      if (!this.todos) return [];
+      if (this.status === "completed") {
         return this.todos.filter((todo) => todo.completedAt != null);
-      }
-      return [];
-    },
-    pendingTasks() {
-      if (this.todos) {
-        // if (this.todos.length > 2) {
-        //   this.todos.push({ task: "new" });
-        // }
+      } else if (this.status === "pending") {
         return this.todos.filter((todo) => todo.completedAt == null);
       }
-      return [];
-    },
-  },
-  watch: {
-    todos: {
-      immediate: true,
-      handler: function (dataChanged) {
-        console.log("todos are changed");
-      },
+      return this.todos;
     },
   },
 };
 </script>
+<style scoped>
+.empty-state {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+  list-style: none;
+  font-style: italic;
+}
+</style>
